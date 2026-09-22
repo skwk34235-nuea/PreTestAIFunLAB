@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI FUN LAB — Pretest ก่อนสอบ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@500;600;700&family=Sarabun:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#12172B;
+    --ink-soft:#4A5169;
+    --paper:#F2F4F8;
+    --card:#FFFFFF;
+    --line:#E1E5EE;
+    --teal:#0E7C74;
+    --teal-dark:#0A5C56;
+    --amber:#E8A23D;
+    --amber-soft:#FBEBD2;
+    --danger:#C4573B;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Sarabun',sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.brand{font-family:'Kanit',sans-serif;}
+
+  .wrap{
+    max-width:680px;
+    margin:0 auto;
+    padding:32px 20px 80px;
+  }
+
+  header.top{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:28px;
+  }
+  .mark{
+    width:42px;height:42px;border-radius:10px;
+    background:var(--teal);
+    color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Kanit',sans-serif;font-weight:700;font-size:18px;
+    flex-shrink:0;
+  }
+  .brand{font-weight:600;font-size:15px;color:var(--ink-soft);letter-spacing:.2px;}
+
+  .hero h1{
+    font-size:clamp(26px,5vw,34px);
+    font-weight:700;
+    line-height:1.25;
+    margin:0 0 10px;
+  }
+  .hero p{
+    color:var(--ink-soft);
+    font-size:16px;
+    margin:0 0 24px;
+    max-width:56ch;
+  }
+
+  .progress-track{
+    position:sticky;
+    top:0;
+    z-index:20;
+    background:var(--paper);
+    padding:10px 0 16px;
+  }
+  .progress-bar{
+    height:8px;
+    border-radius:999px;
+    background:var(--line);
+    overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;
+    width:0%;
+    background:var(--teal);
+    transition:width .25s ease;
+  }
+  .progress-label{
+    font-size:13px;
+    color:var(--ink-soft);
+    margin-top:6px;
+    display:flex;
+    justify-content:space-between;
+  }
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:22px 20px;
+    margin-bottom:16px;
+  }
+
+  .card h2{
+    font-size:16px;
+    margin:0 0 14px;
+    font-weight:600;
+  }
+
+  .field{
+    margin-bottom:14px;
+  }
+  .field:last-child{margin-bottom:0;}
+  .field label{
+    display:block;
+    font-size:14px;
+    font-weight:600;
+    margin-bottom:6px;
+    color:var(--ink);
+  }
+  .field input{
+    width:100%;
+    padding:11px 13px;
+    border:1.5px solid var(--line);
+    border-radius:10px;
+    font-family:inherit;
+    font-size:15px;
+    color:var(--ink);
+    background:#fff;
+    transition:border-color .15s ease;
+  }
+  .field input:focus{
+    outline:none;
+    border-color:var(--teal);
+  }
+  .row-2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+  }
+  @media (max-width:480px){
+    .row-2{grid-template-columns:1fr;}
+  }
+
+  .qcard{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:20px;
+    margin-bottom:14px;
+  }
+  .qcard.answered{border-color:var(--teal);}
+  .qnum{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width:26px;height:26px;
+    border-radius:7px;
+    background:var(--amber-soft);
+    color:var(--teal-dark);
+    font-family:'Kanit',sans-serif;
+    font-weight:600;
+    font-size:13px;
+    margin-right:8px;
+  }
+  .qtext{
+    font-size:16px;
+    font-weight:600;
+    margin:0 0 14px;
+    line-height:1.5;
+  }
+  .options{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .option{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    padding:11px 12px;
+    border:1.5px solid var(--line);
+    border-radius:10px;
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .option:hover{border-color:#B9C0D4;}
+  .option input{
+    margin-top:3px;
+    accent-color:var(--teal);
+    flex-shrink:0;
+  }
+  .option.selected{
+    border-color:var(--teal);
+    background:#EFF8F6;
+  }
+  .option .letter{
+    font-family:'Kanit',sans-serif;
+    font-weight:600;
+    color:var(--teal-dark);
+    flex-shrink:0;
+  }
+  .option span.opt-text{font-size:15px;}
+
+  .submit-bar{
+    position:sticky;
+    bottom:0;
+    background:linear-gradient(180deg, rgba(242,244,248,0) 0%, var(--paper) 30%);
+    padding:24px 0 10px;
+  }
+  .hint{
+    font-size:13.5px;
+    color:var(--ink-soft);
+    margin:0 0 10px;
+  }
+  .hint.warn{color:var(--danger);font-weight:600;}
+  button.submit{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    background:var(--teal);
+    color:#fff;
+    font-family:'Kanit',sans-serif;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    transition:background .15s ease, transform .05s ease;
+  }
+  button.submit:hover{background:var(--teal-dark);}
+  button.submit:active{transform:scale(.995);}
+  button.submit:disabled{
+    background:#B7BECF;
+    cursor:not-allowed;
+  }
+
+  .status-msg{
+    font-size:14px;
+    margin-top:10px;
+    text-align:center;
+  }
+  .status-msg.error{color:var(--danger);}
+  .status-msg.loading{color:var(--ink-soft);}
+
+  /* result screen */
+  .result{
+    text-align:center;
+    padding:50px 24px;
+  }
+  .result .badge{
+    width:64px;height:64px;
+    border-radius:50%;
+    background:var(--teal);
+    color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 18px;
+    font-size:28px;
+  }
+  .result h1{font-size:24px;margin:0 0 8px;}
+  .result p{color:var(--ink-soft);margin:0 0 20px;}
+  .result .score{
+    font-family:'Kanit',sans-serif;
+    font-size:44px;
+    font-weight:700;
+    color:var(--teal-dark);
+    margin-bottom:4px;
+  }
+  .result .score span{
+    font-size:20px;
+    color:var(--ink-soft);
+    font-weight:500;
+  }
+
+  .hidden{display:none !important;}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="top">
+    <div class="mark">AI</div>
+    <div class="brand">AI FUN LAB</div>
+  </header>
+
+  <div id="quizView">
+    <div class="hero">
+      <h1>Pretest ก่อนสอบ</h1>
+      <p>ตอบคำถามทั้ง 15 ข้อด้านล่างให้ครบ ก่อนเข้าห้องสอบจริง ระบบจะตรวจให้คะแนนทันทีหลังส่งคำตอบ</p>
+    </div>
+
+    <div class="progress-track">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-label">
+        <span id="progressText">ตอบแล้ว 0 / 15 ข้อ</span>
+        <span>กรอกข้อมูลผู้ทำแบบทดสอบด้านล่าง</span>
+      </div>
+    </div>
+
+    <form id="quizForm" novalidate>
+
+      <div class="card">
+        <h2>ข้อมูลผู้เข้าทำแบบทดสอบ</h2>
+        <div class="field">
+          <label for="email">อีเมล</label>
+          <input type="email" id="email" name="email" placeholder="name@example.com" required>
+        </div>
+        <div class="field">
+          <label for="fullname">ชื่อ-นามสกุล</label>
+          <input type="text" id="fullname" name="fullname" placeholder="เช่น สมชาย ใจดี" required>
+        </div>
+        <div class="row-2">
+          <div class="field">
+            <label for="className">ชั้น</label>
+            <input type="text" id="className" name="className" placeholder="เช่น ม.2/3" required>
+          </div>
+          <div class="field">
+            <label for="number">เลขที่</label>
+            <input type="text" id="number" name="number" placeholder="เช่น 15" required>
+          </div>
+        </div>
+      </div>
+
+      <div id="questionList"></div>
+
+      <div class="submit-bar">
+        <p class="hint" id="submitHint">กรุณาตอบให้ครบทุกข้อก่อนส่ง</p>
+        <button type="submit" class="submit" id="submitBtn">ส่งคำตอบ</button>
+        <p class="status-msg" id="statusMsg"></p>
+      </div>
+
+    </form>
+  </div>
+
+  <div id="resultView" class="hidden">
+    <div class="card result">
+      <div class="badge">✓</div>
+      <h1>ส่งคำตอบเรียบร้อยแล้ว</h1>
+      <p id="resultName"></p>
+      <div class="score"><span id="scoreValue">0</span><span> / <span id="scoreTotal">15</span> ข้อ</span></div>
+      <p>ระบบได้ส่งผลคะแนนไปยังอีเมลของคุณเรียบร้อยแล้ว</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // ===== ตั้งค่า =====
+  var CONFIG = {
+    // วาง Web app URL ที่ได้จากการ Deploy ใน Code.gs ตรงนี้
+    API_URL: 'https://script.google.com/macros/s/AKfycbyWVaNEPKDmKIussKKuOH4DuOTBrUBDhyoxJfJuOAd41k_213LljySIvZzbwYobFD0n/exec'
+  };
+
+  // ===== ข้อมูลคำถาม (ไม่มีเฉลยอยู่ฝั่งนี้ เพื่อป้องกันการเปิดดูโค้ดแล้วรู้คำตอบ) =====
+  var QUESTIONS = [
+    { id: 'q1', text: 'ข้อใดอธิบายกระบวนการทำงานพื้นฐานของระบบ AI ได้ถูกต้องที่สุดตามหลักการในฐาน AI Detective?', options: {
+      A: 'การทำงานผ่านวงจรไฟฟ้าโดยไม่ต้องใช้ข้อมูลภายนอก',
+      B: 'การรับข้อมูลเพื่อเรียนรู้รูปแบบและวิเคราะห์เพื่อทำนายผลลัพธ์',
+      C: 'การสุ่มผลลัพธ์ออกมาเพื่อให้ผู้ใช้งานเลือกสิ่งที่พอใจที่สุด',
+      D: 'การทำงานตามชุดคำสั่งที่ตั้งเวลาไว้ล่วงหน้าอย่างแม่นยำ'
+    }},
+    { id: 'q2', text: "หากคุณต้องการให้ AI อธิบายเรื่องยาก ๆ ให้เด็กประถมเข้าใจ การกำหนด 'Role' ในสูตร R-C-T-F ควรเป็นอย่างไร?", options: {
+      A: 'กำหนดให้ AI รับบทบาทเป็นคุณครูใจดีที่ใช้ภาษาง่าย ๆ',
+      B: 'กำหนดรูปแบบการตอบกลับให้เป็นตารางเปรียบเทียบ',
+      C: 'ระบุว่าต้องการให้อธิบายเรื่องภาวะโลกร้อน',
+      D: 'บอก AI ว่าห้ามใช้คำศัพท์ภาษาอังกฤษ'
+    }},
+    { id: 'q3', text: "ในสูตรการเขียน Prompt แบบ R-C-T-F ส่วนของ 'Context' มีความสำคัญอย่างไร?", options: {
+      A: 'ใช้ระบุจำนวนข้อหรือความยาวของเนื้อหาที่ต้องการ',
+      B: 'เป็นส่วนที่ใช้ข่มขู่ AI ให้ตั้งใจทำงานมากขึ้น',
+      C: 'ช่วยให้ AI เข้าใจภูมิหลังหรือข้อจำกัดของสถานการณ์นั้น ๆ',
+      D: 'เป็นการระบุว่าต้องการผลลัพธ์เป็นไฟล์ประเภทใด'
+    }},
+    { id: 'q4', text: 'การใช้ Generative AI ในฐาน AI Creator Lab ข้อใดเป็นแนวคิดที่ถูกต้องที่สุด?', options: {
+      A: 'AI เป็นเครื่องมือช่วยสร้างงานที่ต้องมีการกำกับและปรับปรุงโดยมนุษย์',
+      B: 'การใช้ AI สร้างงานไม่จำเป็นต้องมีความคิดสร้างสรรค์จากมนุษย์',
+      C: 'งานที่ได้จาก AI ไม่สามารถนำมาแก้ไขหรือพัฒนาต่อได้',
+      D: 'AI คือปุ่มเสกงานที่กดเพียงครั้งเดียวก็ได้ผลงานสมบูรณ์แบบทันที'
+    }},
+    { id: 'q5', text: 'เมื่อ AI ให้ข้อมูลที่ผิดพลาดแต่เขียนด้วยน้ำเสียงที่มั่นใจมาก (Hallucination) เราควรปฏิบัติตามหลักการใดในฐาน AI Truth or Fake?', options: {
+      A: 'เชื่อถือข้อมูลนั้นทันทีเพราะ AI มีฐานข้อมูลมหาศาล',
+      B: 'ตรวจสอบข้อมูลกับแหล่งอ้างอิงที่น่าเชื่อถืออื่น ๆ (Compare)',
+      C: 'นำข้อมูลนั้นไปแชร์ต่อเพื่อถามความเห็นคนใน Social Media',
+      D: 'ลบโปรแกรม AI นั้นทิ้งทันทีเพราะถือว่าใช้งานไม่ได้'
+    }},
+    { id: 'q6', text: 'ระบบแนะนำคลิปวิดีโอใน TikTok หรือ YouTube จัดเป็น AI ประเภทใด?', options: {
+      A: 'Natural Language Processing (การประมวลผลภาษา)',
+      B: 'Computer Vision (การมองเห็น)',
+      C: 'Recommendation (ระบบแนะนำ)',
+      D: 'Generative AI (การสร้างสรรค์)'
+    }},
+    { id: 'q7', text: "หลักการ 'C' ตัวแรกใน C.H.E.C.K. คือ Creator หมายถึงการตั้งคำถามในข้อใด?", options: {
+      A: 'มีคำศัพท์ที่สะกดผิดในเนื้อหาหรือไม่?',
+      B: 'AI ตัวนี้ราคาเท่าไหร่และใครเป็นเจ้าของลิขสิทธิ์ซอฟต์แวร์?',
+      C: 'ใครเป็นผู้สร้างข้อมูลนี้ขึ้นมาและมีเจตนาอย่างไร?',
+      D: 'ข้อมูลนี้ถูกสร้างขึ้นในคอมพิวเตอร์รุ่นใด?'
+    }},
+    { id: 'q8', text: "หากต้องการสร้างภาพ 'โรงเรียนในอนาคต' ด้วย AI การระบุ 'Realistic' หรือ '3D Futuristic' ใน Prompt จัดเป็นส่วนประกอบใด?", options: {
+      A: 'Task (งาน)',
+      B: 'Character (ตัวละคร)',
+      C: 'Style (สไตล์)',
+      D: 'Location (สถานที่)'
+    }},
+    { id: 'q9', text: 'ข้อใดเป็นพฤติกรรมที่ไม่เหมาะสมในการใช้ AI ตามหลักจริยธรรมที่เรียนในฐานที่ 4?', options: {
+      A: 'เปิดเผยข้อมูลว่างานชิ้นนี้มีการใช้ AI ช่วยในส่วนใดบ้าง',
+      B: 'ตรวจสอบคำตอบที่ AI ให้มากับหนังสือเรียนก่อนนำไปใช้',
+      C: 'ใช้ AI ช่วยร่างโครงร่างรายงานแล้วนำมาเรียบเรียงใหม่ด้วยตัวเอง',
+      D: 'นำใบหน้าเพื่อนไปสร้างภาพตลกโดยไม่ได้ขออนุญาต'
+    }},
+    { id: 'q10', text: 'ในการสังเกตวิดีโอที่เป็น Deepfake ข้อสังเกตใดที่มีความเป็นไปได้มากที่สุด?', options: {
+      A: 'ไม่มีปุ่มกดหยุด (Pause) ในวิดีโอนั้น',
+      B: 'สีของวิดีโอจะเป็นขาวดำเท่านั้น',
+      C: 'การขยับปากและเสียงพูดไม่สัมพันธ์กันอย่างเป็นธรรมชาติ',
+      D: 'วิดีโอมีความยาวเกิน 10 นาทีเสมอ'
+    }},
+    { id: 'q11', text: "ข้อใดจัดเป็น 'เครื่องมือทั่วไป' ที่ไม่ใช่ AI (Non-AI)?", options: {
+      A: 'Google Maps ที่คำนวณเส้นทางใหม่เมื่อการจราจรเปลี่ยนไป',
+      B: 'ระบบ Face ID ที่จดจำและเรียนรู้การเปลี่ยนแปลงของใบหน้าเจ้าของ',
+      C: 'ChatGPT ที่สามารถเขียนบทกลอนตามหัวข้อที่ได้รับ',
+      D: 'เครื่องซักผ้าที่ทำงานตามเวลาที่ผู้ใช้กดตั้งค่าไว้'
+    }},
+    { id: 'q12', text: "ส่วนประกอบ 'F' ใน R-C-T-F มักใช้ระบุสิ่งใดในคำสั่ง Prompt?", options: {
+      A: 'รูปแบบของคำตอบ เช่น ให้ตอบเป็นตาราง บทความ หรือ Bullet points',
+      B: 'ชื่อเต็ม (Full name) ของผู้สั่งงาน',
+      C: 'ไฟล์ข้อมูล (File) ที่ต้องการอัปโหลดให้ AI ประมวลผล',
+      D: 'ความรู้สึก (Feeling) ที่ต้องการให้ AI แสดงออกผ่านข้อความ'
+    }},
+    { id: 'q13', text: 'ทำไมการเขียน Prompt รอบเดียวจึงมักไม่ได้ผลงานที่พอใจที่สุดใน AI Creator Lab?', options: {
+      A: 'เพราะอินเทอร์เน็ตมักจะช้าในช่วงการสั่งงานครั้งแรก',
+      B: 'เพราะคอมพิวเตอร์ต้องการเวลาในการวอร์มอัพเครื่อง',
+      C: 'เพราะ AI ถูกตั้งโปรแกรมมาให้แกล้งทำผิดในรอบแรกเสมอ',
+      D: 'เพราะเราต้องนำผลลัพธ์แรกมาวิเคราะห์เพื่อปรับแต่งรายละเอียดให้ชัดเจนขึ้น'
+    }},
+    { id: 'q14', text: "หลักการ 'Evidence' ใน C.H.E.C.K. มีไว้เพื่อตรวจสอบสิ่งใด?", options: {
+      A: 'หน้าตาของผู้ที่แชร์ข่าวดูมีความรู้น่าเชื่อถือไหม',
+      B: 'มีการใช้ Emoji ในข้อความมากเกินไปหรือไม่',
+      C: 'ข้อมูลนั้นมีหลักฐานหรืออ้างอิงที่ตรวจสอบได้จริงหรือไม่',
+      D: 'คอมพิวเตอร์ที่ใช้มีความจุฮาร์ดดิสก์เท่าไหร่'
+    }},
+    { id: 'q15', text: 'หากเพื่อนส่งภาพ AI ที่ดูเหมือนจริงมากมาให้ดูในกลุ่มแชท สิ่งแรกที่ควรทำตามหลัก AI FUN LAB คืออะไร?', options: {
+      A: 'หยุดคิดและตรวจสอบที่มา (C.H.E.C.K.) ก่อนเชื่อหรือแชร์ต่อ',
+      B: 'พิมพ์ชื่นชมความสวยงามทันทีโดยไม่สนใจเนื้อหา',
+      C: 'รีบส่งต่อให้คนอื่นดูเพราะเป็นภาพที่น่าสนใจ',
+      D: 'โอนเงินให้ตามที่ภาพนั้นเชิญชวนทันที'
+    }}
+  ];
+
+  var answers = {};
+
+  function renderQuestions(){
+    var list = document.getElementById('questionList');
+    var html = '';
+    QUESTIONS.forEach(function(q, idx){
+      html += '<div class="qcard" id="card-' + q.id + '">';
+      html += '<p class="qtext"><span class="qnum">' + (idx+1) + '</span>' + q.text + '</p>';
+      html += '<div class="options">';
+      ['A','B','C','D'].forEach(function(letter){
+        html += '' +
+          '<label class="option" id="opt-' + q.id + '-' + letter + '">' +
+            '<input type="radio" name="' + q.id + '" value="' + letter + '">' +
+            '<span class="letter">' + letter + '.</span>' +
+            '<span class="opt-text">' + q.options[letter] + '</span>' +
+          '</label>';
+      });
+      html += '</div></div>';
+    });
+    list.innerHTML = html;
+
+    QUESTIONS.forEach(function(q){
+      ['A','B','C','D'].forEach(function(letter){
+        var optEl = document.getElementById('opt-' + q.id + '-' + letter);
+        optEl.addEventListener('click', function(){
+          answers[q.id] = letter;
+          ['A','B','C','D'].forEach(function(l){
+            document.getElementById('opt-' + q.id + '-' + l).classList.remove('selected');
+          });
+          optEl.classList.add('selected');
+          document.getElementById('card-' + q.id).classList.add('answered');
+          updateProgress();
+        });
+      });
+    });
+  }
+
+  function updateProgress(){
+    var answeredCount = Object.keys(answers).length;
+    var pct = Math.round((answeredCount / QUESTIONS.length) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressText').textContent = 'ตอบแล้ว ' + answeredCount + ' / ' + QUESTIONS.length + ' ข้อ';
+  }
+
+  function setStatus(msg, type){
+    var el = document.getElementById('statusMsg');
+    el.textContent = msg || '';
+    el.className = 'status-msg' + (type ? ' ' + type : '');
+  }
+
+  document.getElementById('quizForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    setStatus('', '');
+
+    var email = document.getElementById('email').value.trim();
+    var fullname = document.getElementById('fullname').value.trim();
+    var className = document.getElementById('className').value.trim();
+    var number = document.getElementById('number').value.trim();
+
+    if (!email || !fullname || !className || !number) {
+      setStatus('กรุณากรอกข้อมูลผู้ทำแบบทดสอบให้ครบ', 'error');
+      return;
+    }
+    if (Object.keys(answers).length < QUESTIONS.length) {
+      setStatus('กรุณาตอบให้ครบทุกข้อก่อนส่ง (เหลืออีก ' + (QUESTIONS.length - Object.keys(answers).length) + ' ข้อ)', 'error');
+      return;
+    }
+
+    var payload = {
+      email: email,
+      fullname: fullname,
+      className: className,
+      number: number,
+      answers: answers
+    };
+
+    var btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    setStatus('กำลังส่งคำตอบ...', 'loading');
+
+    fetch(CONFIG.API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    })
+      .then(function(res){ return res.json(); })
+      .then(function(data){
+        if (data.status === 'success') {
+          document.getElementById('resultName').textContent = fullname + ' (' + className + ' เลขที่ ' + number + ')';
+          document.getElementById('scoreValue').textContent = data.score;
+          document.getElementById('scoreTotal').textContent = data.total;
+          document.getElementById('quizView').classList.add('hidden');
+          document.getElementById('resultView').classList.remove('hidden');
+          window.scrollTo(0,0);
+        } else {
+          setStatus(data.message || 'เกิดข้อผิดพลาด กรุณาลองใหม่', 'error');
+          btn.disabled = false;
+        }
+      })
+      .catch(function(){
+        setStatus('ส่งคำตอบไม่สำเร็จ ตรวจสอบอินเทอร์เน็ตแล้วลองอีกครั้ง', 'error');
+        btn.disabled = false;
+      });
+  });
+
+  renderQuestions();
+  updateProgress();
+</script>
+
+</body>
+</html>
